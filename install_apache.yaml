@@ -1,23 +1,14 @@
 ---
 
-- name: Lets do it
+- name: Install apache
   hosts: all
   become: true
   tasks:
 
-    - name: Update repository index
-      ansible.builtin.apt:
+    - name: Install packages
+      ansible.builtin.package:
+        name:
+          - "{{ apache_package }}"
+          - "{{ php_package }}"
+        state: latest
         update_cache: true
-      when: ansible_distribution == "Ubuntu"
-
-    - name: Install apache2 package
-      ansible.builtin.apt:
-        name: apache2
-        state: latest
-      when: ansible_distribution == "Ubuntu"
-
-    - name: Add php support for apache
-      ansible.builtin.apt:
-        name: libapache2-mod-php
-        state: latest
-      when: ansible_distribution == "Ubuntu"
